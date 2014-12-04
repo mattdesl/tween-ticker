@@ -11,13 +11,16 @@ var ticker = Ticker()
 
 //push a tween, animating array A to B
 var start = [0, 0]
-ticker.pushArray(start, [2, 4], { duration: 1 })
+var tween = ticker.pushArray(start, [2, 4], { duration: 1 })
 
 //step the ticker by half the tween's duration
 ticker.tick(0.5)
 
 //start will now be [1, 2]
 console.log(start)
+
+//we can cancel the tween to stop it from updating any more
+tween.cancel()
 ```
 
 ## Usage
@@ -76,7 +79,11 @@ ticker.pushArray(start, end, 1.5)
 
 Clears all tweens stored in this ticker.
 
-### `tween.cancel()`
+### `tween`
+
+The return value of `pushArray` and `pushObject` is a tween with the following:
+
+#### `tween.cancel()`
 
 Cancels the tween, removing it from the queue on the next tick without applying any further interpolation.
 
