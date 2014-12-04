@@ -32,10 +32,10 @@ TweenTicker.prototype.to = function(element, opt) {
     return tween
 }
 
-// TweenTicker.prototype.push = function(tween) {
-//     this.stack.push(tween)
-//     return tween
-// }
+TweenTicker.prototype.push = function(tween) {
+    this.stack.push(tween)
+    return tween
+}
 
 TweenTicker.prototype.tick = function(dt) {
     dt = typeof dt === 'number' ? dt : 1/60
