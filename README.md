@@ -53,14 +53,25 @@ Tweens the `element`, which can be an array of objects, or a single object, with
 Any other properties to `opt` will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
 
 ```js
-var element = { x: 25, shape: [10, 5] }
+var elements = [
+    { x: 25, shape: [10, 5] },
+    { x: 15, opacity: 0 }
+]
 
-var tween = ticker.to(element, { 
-    x: 50,
-    shape: [5, 2],
+var tween = ticker.to(elements, { 
+    opacity: 1,
+    shape: [5, 0],
     duration: 3,
     delay: 0.25
 })
+
+/*
+    after tween is finished, element will equal:
+    [
+        { x: 25, shape: [5, 0] },
+        { x: 15, opacity: 1 }
+    ]
+*/
 ```
 
 #### `ticker.clear()`
