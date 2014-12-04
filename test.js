@@ -30,6 +30,36 @@ test('operates on obejcts', function(t) {
     t.end()
 })
 
+test('eases', function(t) {
+    var eases = {
+        squared: function (a) {
+            return a*a
+        },
+        sqrt: function (a) {
+            return Math.sqrt(a)
+        },
+        linear: function(a) {
+            return a
+        }
+    }
+    
+    var ticker = Ticker({ defaultEase: eases.squared, eases: eases })
+
+    var target = { x: 0 }
+    ticker.to(target, { x: 2, duration: 1 })
+    ticker.tick(0.25)
+    ticker.tick(0.50)
+    t.equal(target.x, 1.125, 'uses squared by default')
+
+    ticker.clear()
+    target.x = 0
+    ticker.to(target, { x: 1, duration: 1, ease: 'linear' })
+    ticker.tick(0.50)
+    t.equal(target.x, 0.5, 'accepts strings for ease map')
+
+    t.end()
+})
+
 test('handles callbacks', function(t) {
     var ticker = Ticker()
 
@@ -65,7 +95,7 @@ test('handles multiple', function(t) {
         x: 20, 
         duration: 1,
         onStart: function() {
-            t.ok(true, 'complete start once')
+            t.ok(true, 'start once')
         } 
     })
     ticker.tick(0.5)

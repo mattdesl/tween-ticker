@@ -26,11 +26,16 @@ TweenTicker.prototype.clear = function() {
 
 TweenTicker.prototype.to = function(element, opt) {
     var tween = Array.isArray(element) 
-            ? new GroupTween(this, element, opt)
-            : new ObjectTween(this, element, opt)
+            ? new GroupTween(element, opt)
+            : new ObjectTween(element, opt)
     this.stack.push(tween)
     return tween
 }
+
+// TweenTicker.prototype.push = function(tween) {
+//     this.stack.push(tween)
+//     return tween
+// }
 
 TweenTicker.prototype.tick = function(dt) {
     dt = typeof dt === 'number' ? dt : 1/60
@@ -55,7 +60,7 @@ TweenTicker.prototype.tick = function(dt) {
         else if (alpha > 1)
             alpha = 1
 
-        alpha = tween.ease(alpha)
+        alpha = this.ease(tween, alpha)
         tween.lerp(alpha)
         tween.onUpdate(tween)
 
@@ -69,6 +74,15 @@ TweenTicker.prototype.tick = function(dt) {
     for (i=this.stack.length-1; i>=0; i--)
         if (!this.stack[i].active)
             this.stack.splice(i, 1)
+}
+
+TweenTicker.prototype.ease = function(tween, alpha) {
+    var ease = tween.ease || this.defaultEase
+    if (typeof ease === 'string')
+        ease = this.eases[ease]
+    if (typeof ease !== 'function')
+        ease = linear
+    return ease(alpha)
 }
 
 module.exports = TweenTicker
