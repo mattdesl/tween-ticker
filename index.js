@@ -1,7 +1,6 @@
 var linear = require('eases/linear')
 
 var ObjectTween = require('./lib/object')
-var ArrayTween = require('./lib/array')
 var GroupTween = require('./lib/group')
 
 function TweenTicker(opt) {
@@ -25,16 +24,10 @@ TweenTicker.prototype.clear = function() {
     this.stack.length = 0
 }
 
-TweenTicker.prototype.pushObject = function(element, opt) {
-    return push(this.stack, new ObjectTween(this, element, opt))
-}
-
-TweenTicker.prototype.pushObjects = function(elements, opt) {
-    return push(this.stack, new GroupTween(this, elements, opt))
-}
-
-TweenTicker.prototype.pushArray = function(start, end, opt) {
-    return push(this.stack, new ArrayTween(this, start, end, opt))
+TweenTicker.prototype.to = function(element, opt) {
+    return push(this.stack, Array.isArray(element) 
+            ? new GroupTween(this, element, opt)
+            : new ObjectTween(this, element, opt))
 }
 
 TweenTicker.prototype.tick = function(dt) {

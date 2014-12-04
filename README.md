@@ -9,17 +9,22 @@ Does not assume any standard set of eases, and uses linear (i.e. no ease) by def
 ```js
 var ticker = Ticker()
 
-//push a tween, animating array A to B
-var start = [0, 0]
-var tween = ticker.pushArray(start, [2, 4], { duration: 1 })
+//the thing we want tweened
+var target = {
+    position: [0, 0],
+    opacity: 0
+}
 
-//step the ticker by half the tween's duration
+//get a new tween to the given ending state
+var tween = ticker.to(target, { position: [2, 4], opacity: 1, duration: 1 })
+
+//step the ticker by a delta time
 ticker.tick(0.5)
 
-//start will now be [1, 2]
-console.log(start)
+console.log(target.position) // -> [ 1, 2 ]
+console.log(target.opacity)  // -> 0.5
 
-//we can cancel the tween to stop it from updating any more
+//optionally we can cancel the tween to stop it from running anymore
 tween.cancel()
 ```
 
@@ -34,9 +39,9 @@ Creates a ticker with some options:
 - `eases` a map of ease functions that users can pass by string in the tween options, defaults to an empty object
 - `defaultEase` a string or function that represents the default easing when the user does not specify one, defaults to a [linear function](https://github.com/mattdesl/eases/blob/master/linear.js)
 
-#### `tween = ticker.pushObject(element, opt)`
+#### `tween = ticker.to(element, opt)`
 
-Tweens object properties and arrays. Options:
+Tweens the `element`, which can be an array of objects, or a single object, with the given options.
 
 - `delay` in time units, default 0
 - `duration` in time units, default 0
@@ -45,34 +50,17 @@ Tweens object properties and arrays. Options:
 - `onStart` called when the tween is started
 - `onUpdate` called when the tween is updated
 
-Any other properties will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
+Any other properties to `opt` will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
 
 ```js
 var element = { x: 25, shape: [10, 5] }
 
-var tween = ticker.pushObject(element, { 
+var tween = ticker.to(element, { 
     x: 50,
     shape: [5, 2],
-    duration: 3
+    duration: 3,
+    delay: 0.25
 })
-```
-
-#### `tween = ticker.pushArray(start, end[, opt])`
-
-Tweens two arrays. This is more optimized than object tweening and leads to less GC thrashing. In addition to `pushObject` options, there is also:
-
-- `output` the output array to modify, defaults to `start` if not provided
-
-If `opt` is a number, it is assumed to be a `duration` and `start` will be the output.
-
-```js
-var start = [0, 5], end = [5, 10], tmp = []
-
-//to avoid modifying start
-ticker.pushArray(start, end, { output: tmp, duration: 1.5, delay: 0.5 })
-
-//or could modify start directly
-ticker.pushArray(start, end, 1.5)
 ```
 
 #### `ticker.clear()`
