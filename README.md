@@ -41,11 +41,11 @@ Creates a ticker with some options:
 
 #### `tween = ticker.to(element, opt)`
 
-Tweens the `element`, which can be an array of objects, or a single object, with the given options.
+Tweens the `element`, which can be an array of objects, or a single object. `opt` can be the following:
 
 - `delay` in time units, default 0
 - `duration` in time units, default 0
-- `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases)
+- `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases), defaults to `ticker.defaultEase`
 - `onComplete` called when the tween is complete
 - `onStart` called when the tween is started
 - `onUpdate` called when the tween is updated
