@@ -51,18 +51,24 @@ TweenTicker.prototype.tick = function(dt) {
             continue
         var last = tween.time
         tween.time += dt
-        if (last === 0 && tween.time > 0) 
-            tween.onStart(tween)
-        
+                
         var alpha = (tween.time-tween.delay) / tween.duration
-        if (alpha < 0)
-            alpha = 0
-        else if (alpha > 1)
-            alpha = 1
+        if (tween.time-tween.delay > 0) {
+            if (!tween._started) {
+                tween._started = true
+                tween.setup()
+                tween.onStart(tween)
+            }
 
-        alpha = this.ease(tween, alpha)
-        tween.lerp(alpha)
-        tween.onUpdate(tween)
+            if (alpha < 0)
+                alpha = 0
+            else if (alpha > 1)
+                alpha = 1
+
+            alpha = this.ease(tween, alpha)
+            tween.lerp(alpha)
+            tween.onUpdate(tween)
+        }
 
         if (tween.time >= (tween.duration+tween.delay)) {
             tween.active = false
