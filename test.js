@@ -73,3 +73,30 @@ test('handles callbacks', function(t) {
     ticker.tick(1)
     ticker.tick(1)
 })
+
+
+test('handles multiple', function(t) {
+    t.plan(3)
+
+    var ticker = Ticker()
+
+    var elements = [
+        { alpha: 0 },
+        { alpha: 0.5 },
+        { alpha: 1 }
+    ]
+
+    var tween = ticker.pushObjects(elements, { 
+        alpha: 1, 
+        duration: 1,
+        onStart: function() {
+            t.ok(true, 'complete start once')
+        } 
+    })
+    ticker.tick(0.5)
+    t.deepEqual(elements, [ { alpha: 0.5 }, { alpha: 0.75 }, { alpha: 1 } ], 'tweens multiple')
+
+    tween.cancel()
+    ticker.tick(0.5)
+    t.deepEqual(elements, [ { alpha: 0.5 }, { alpha: 0.75 }, { alpha: 1 } ], 'cancels multiple')
+})

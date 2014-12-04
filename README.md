@@ -41,6 +41,9 @@ Tweens object properties and arrays. Options:
 - `delay` in time units, default 0
 - `duration` in time units, default 0
 - `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases)
+- `onComplete` called when the tween is complete
+- `onStart` called when the tween is started
+- `onUpdate` called when the tween is updated
 
 Any other properties will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
 
@@ -56,12 +59,9 @@ var tween = ticker.pushObject(element, {
 
 #### `tween = ticker.pushArray(start, end[, opt])`
 
-Tweens two arrays. This is more optimized than object tweening and leads to less GC thrashing. Options:
+Tweens two arrays. This is more optimized than object tweening and leads to less GC thrashing. In addition to `pushObject` options, there is also:
 
 - `output` the output array to modify, defaults to `start` if not provided
-- `delay` in time units, default 0
-- `duration` in time units, default 0
-- `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases)
 
 If `opt` is a number, it is assumed to be a `duration` and `start` will be the output.
 
