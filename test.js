@@ -54,22 +54,24 @@ test('handles multiple', function(t) {
     var ticker = Ticker()
 
     var elements = [
-        { alpha: 0 },
-        { alpha: 0.5 },
+        { alpha: 0, y: 15 },
+        { alpha: 0.5, x: 0 },
         { alpha: 1 }
     ]
+    var expected = [ { alpha: 0.5, y: 15 }, { alpha: 0.75, x: 10 }, { alpha: 1 } ]
 
     var tween = ticker.to(elements, { 
-        alpha: 1, 
+        alpha: 1,
+        x: 20, 
         duration: 1,
         onStart: function() {
             t.ok(true, 'complete start once')
         } 
     })
     ticker.tick(0.5)
-    t.deepEqual(elements, [ { alpha: 0.5 }, { alpha: 0.75 }, { alpha: 1 } ], 'tweens multiple')
+    t.deepEqual(elements, expected, 'tweens multiple')
 
     tween.cancel()
     ticker.tick(0.5)
-    t.deepEqual(elements, [ { alpha: 0.5 }, { alpha: 0.75 }, { alpha: 1 } ], 'cancels multiple')
+    t.deepEqual(elements, expected, 'cancels multiple')
 })
