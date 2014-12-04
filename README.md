@@ -67,7 +67,11 @@ var tween = ticker.to(element, {
 
 Clears all tweens stored in this ticker.
 
-### `tween`
+#### `ticker.tick([dt])`
+
+Ticks the tween engine forward by the given delta time (or `1/60` if not specified). 
+
+--
 
 The return value of `pushArray` and `pushObject` is a tween with the following:
 
