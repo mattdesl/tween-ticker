@@ -32,7 +32,7 @@ tween.cancel()
 Creates a ticker with some options:
 
 - `eases` a map of ease functions that users can pass by string in the tween options, defaults to an empty object
-- `defaultEase` a string or function that represents the default easing when the user does not specify one, defaults to linear
+- `defaultEase` a string or function that represents the default easing when the user does not specify one, defaults to a [linear function](https://github.com/mattdesl/eases/blob/master/linear.js)
 
 #### `tween = ticker.pushObject(element, opt)`
 

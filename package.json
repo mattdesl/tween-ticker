@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "an-array": "^1.0.0",
-    "eases": "^1.0.2",
+    "eases": "^1.0.3",
     "inherits": "^2.0.1",
     "lerp-array": "^1.1.1"
   },
