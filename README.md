@@ -7,6 +7,7 @@ A generic low-level ticker for tweening engines. Stacks tweens and then, on each
 Does not assume any standard set of eases, and uses linear (i.e. no ease) by default.
 
 ```js
+var Ticker = require('tween-ticker')
 var ticker = Ticker()
 
 //the thing we want tweened
