@@ -1,0 +1,45 @@
+{
+  "name": "tween-ticker",
+  "version": "1.0.0",
+  "description": "a generic tween ticker engine",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {
+    "an-array": "^1.0.0",
+    "eases": "^1.0.2",
+    "inherits": "^2.0.1",
+    "lerp-array": "^1.1.1"
+  },
+  "devDependencies": {
+    "tape": "^3.0.3"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "tick",
+    "tween",
+    "tweens",
+    "anim",
+    "animation",
+    "tweening",
+    "animations",
+    "vector",
+    "arrays",
+    "objects",
+    "values"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattdesl/tween-ticker.git"
+  },
+  "homepage": "https://github.com/mattdesl/tween-ticker",
+  "bugs": {
+    "url": "https://github.com/mattdesl/tween-ticker/issues"
+  }
+}
