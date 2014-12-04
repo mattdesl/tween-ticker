@@ -56,3 +56,20 @@ test('operates on obejcts', function(t) {
     t.deepEqual(element, { x: 10, value: [2, 4] }, 'lerps arrays and numbers')
     t.end()
 })
+
+test('handles callbacks', function(t) {
+    var ticker = Ticker()
+
+    t.plan(4)
+
+    var start = [0, 0], 
+        end = [50, 1]
+    var tween = ticker.pushArray(start, end, { 
+        duration: 2,
+        onUpdate: function(tween) { t.ok(tween, "update") }, //2x times
+        onComplete: function(tween) { t.ok(tween, "complete") },
+        onStart: function(tween) { t.ok(tween, "start") },
+    })
+    ticker.tick(1)
+    ticker.tick(1)
+})
