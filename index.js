@@ -15,6 +15,7 @@ function TweenTicker(opt) {
 TweenTicker.prototype.clear = function() {
     for (var i=0; i<this.stack.length; i++) {
         var t = this.stack[i]
+        t.cancel()
         if (t.active) {
             t.cancelling = true
             t.onComplete(t)
@@ -47,8 +48,12 @@ TweenTicker.prototype.tick = function(dt) {
             tween.onComplete(tween)
         }
 
+        //Tween objects could be made into an API 
+        //with their own tick(dt) etc methods
+        
         if (!tween.active)
             continue
+
         var last = tween.time
         tween.time += dt
                 

@@ -47,9 +47,9 @@ Tweens the `element`, which can be an array of objects, or a single object. `opt
 - `delay` in time units, default 0
 - `duration` in time units, default 0
 - `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases), defaults to `ticker.defaultEase`
-- `onComplete` called when the tween is complete
-- `onStart` called when the tween is started
-- `onUpdate` called when the tween is updated
+- `onComplete` called when the tween is complete, with event parameter `{ target }`
+- `onStart` called when the tween is started, with event parameter `{ target }`
+- `onUpdate` called when the tween is updated, with event parameter `{ target }`
 
 Any other properties to `opt` will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
 
