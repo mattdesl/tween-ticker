@@ -14,7 +14,8 @@
     "eases": "^1.0.3",
     "inherits": "^2.0.1",
     "lerp-array": "^1.1.1",
-    "tween-base": "^2.0.0"
+    "tween-base": "^2.0.0",
+    "tween-objects": "^1.0.0"
   },
   "devDependencies": {
     "tape": "^3.0.3"
