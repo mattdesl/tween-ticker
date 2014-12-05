@@ -1,6 +1,6 @@
 {
   "name": "tween-ticker",
-  "version": "2.1.3",
+  "version": "3.0.0",
   "description": "a generic tween ticker engine",
   "main": "index.js",
   "license": "MIT",
