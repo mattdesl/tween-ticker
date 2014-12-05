@@ -4,6 +4,8 @@
 
 A generic low-level ticker for tweening engines. Stacks tweens and then, on each tick, steps through them to update them to their interpolated (and eased) values. 
 
+This is the building blocks for [tweenr](https://www.npmjs.org/package/tweenr), but can be useful on its own for [modular components](https://github.com/mattdesl/tweenr/tree/master/test/fancy-box/index.js)
+
 Does not assume any standard set of eases, and uses linear (i.e. no ease) by default.
 
 ```js
