@@ -49,9 +49,6 @@ Tweens the `element`, which can be an array of objects, or a single object. `opt
 - `delay` in time units, default 0
 - `duration` in time units, default 0
 - `ease` is a string (lookup for the `eases` passed at constructor) or an [ease function](https://www.npmjs.org/package/eases), defaults to `ticker.defaultEase`
-- `onComplete` called when the tween is complete, with event parameter `{ target }`
-- `onStart` called when the tween is started, with event parameter `{ target }`
-- `onUpdate` called when the tween is updated, with event parameter `{ target }`
 
 Any other properties to `opt` will be tweened if *they are consistent with `element`* and also if they are a `number` or [an array](https://www.npmjs.org/package/an-array).
 
@@ -77,6 +74,8 @@ var tween = ticker.to(elements, {
 */
 ```
 
+*Note:* Under the hood, this simply calls `push()` with a new [tween-objects](https://www.npmjs.org/package/tween-objects) instance.
+
 #### `ticker.clear()`
 
 Clears all tweens stored in this ticker.
@@ -85,13 +84,32 @@ Clears all tweens stored in this ticker.
 
 Ticks the tween engine forward by the given delta time (or `1/60` if not specified). 
 
+#### `ticker.push(tween)`
+
+Pushes a generic tween type onto the stack and returns it. e.g.
+
+```js
+var array = require('tween-array')
+ticker.push(array(start, end, { duration: 5 }))
+    .on('complete', doSomething)
+```
+
 --
 
-The return value of `ticker.to()` is a tween with the following:
+The return value of `ticker.to()` is a tween with the following methods:
 
 #### `tween.cancel()`
 
-Cancels the tween, removing it from the queue on the next tick without applying any further interpolation.
+Cancels the tween, removing it from the queue on the next tick without applying any further interpolation. 
+
+#### `tween.on(event, func)`
+
+The returned tween is an event emitter with the following events:
+
+- `start` triggered when the tween is first started
+- `cancelling` triggered before the tween completes, initiating from a call to `cancel()`
+- `complete` triggered when the tween is completed
+- `update` triggered after the tween updates its values
 
 ## License
 

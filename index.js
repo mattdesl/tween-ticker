@@ -1,7 +1,5 @@
 var linear = require('eases/linear')
-
-var ObjectTween = require('./lib/object')
-var GroupTween = require('./lib/group')
+var createTween = require('tween-objects')
 
 function TweenTicker(opt) {
     if (!(this instanceof TweenTicker))
@@ -10,27 +8,20 @@ function TweenTicker(opt) {
     this.stack = []
     this.defaultEase = opt.defaultEase || linear
     this.eases = opt.eases || {}
+    this._applyEase = this.ease.bind(this)
 }
 
 TweenTicker.prototype.clear = function() {
     for (var i=0; i<this.stack.length; i++) {
         var t = this.stack[i]
         t.cancel()
-        if (t.active) {
-            t.cancelling = true
-            t.onComplete(t)
-        }
-        t.active = false
+        t.tick(0)
     }
     this.stack.length = 0
 }
 
 TweenTicker.prototype.to = function(element, opt) {
-    var tween = Array.isArray(element) 
-            ? new GroupTween(element, opt)
-            : new ObjectTween(element, opt)
-    this.stack.push(tween)
-    return tween
+    return this.push(createTween(element, opt))
 }
 
 TweenTicker.prototype.push = function(tween) {
@@ -41,44 +32,10 @@ TweenTicker.prototype.push = function(tween) {
 TweenTicker.prototype.tick = function(dt) {
     dt = typeof dt === 'number' ? dt : 1/60
 
+    //for all queued tweens, tick them forward
     for (var i=0; i<this.stack.length; i++) {
         var tween = this.stack[i]
-        if (tween.cancelling && tween.active) {
-            tween.active = false
-            tween.onComplete(tween)
-        }
-
-        //Tween objects could be made into an API 
-        //with their own tick(dt) etc methods
-        
-        if (!tween.active)
-            continue
-
-        var last = tween.time
-        tween.time += dt
-                
-        var alpha = (tween.time-tween.delay) / tween.duration
-        if (tween.time-tween.delay > 0) {
-            if (!tween._started) {
-                tween._started = true
-                tween.setup()
-                tween.onStart(tween)
-            }
-
-            if (alpha < 0)
-                alpha = 0
-            else if (alpha > 1)
-                alpha = 1
-
-            alpha = this.ease(tween, alpha)
-            tween.lerp(alpha)
-            tween.onUpdate(tween)
-        }
-
-        if (tween.time >= (tween.duration+tween.delay)) {
-            tween.active = false
-            tween.onComplete(tween)
-        }
+        tween.tick(dt, this._applyEase)
     }
 
     //now kill any inactive tweens
@@ -87,6 +44,7 @@ TweenTicker.prototype.tick = function(dt) {
             this.stack.splice(i, 1)
 }
 
+//determines which easing function to use based on user options
 TweenTicker.prototype.ease = function(tween, alpha) {
     var ease = tween.ease || this.defaultEase
     if (typeof ease === 'string')

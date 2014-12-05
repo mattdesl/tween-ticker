@@ -68,11 +68,10 @@ test('handles callbacks', function(t) {
     var target = { start: [0, 0], end: [15, 15] }
     var tween = ticker.to(target, { 
         duration: 2,
-        //will be called 2x times
-        onUpdate: function(tween) { t.equal(tween.target, target, "update") }, 
-        onComplete: function(tween) { t.equal(tween.target, target, "complete") },
-        onStart: function(tween) { t.equal(tween.target, target, "start") },
-    })
+    }).on('complete', function(tween) { t.equal(tween.target, target, "complete") })
+      .on('start', function(tween) { t.equal(tween.target, target, "start") })
+      //will be called 2x times
+      .on('update', function(tween) { t.equal(tween.target, target, "update") })
     ticker.tick(1)
     ticker.tick(1)
 })
@@ -94,9 +93,8 @@ test('handles multiple', function(t) {
         alpha: 1,
         x: 20, 
         duration: 1,
-        onStart: function() {
+    }).on('start', function() {
             t.ok(true, 'start once')
-        } 
     })
     ticker.tick(0.5)
     t.deepEqual(elements, expected, 'tweens multiple')
