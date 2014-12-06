@@ -14,6 +14,7 @@ function TweenTicker(opt) {
 TweenTicker.prototype.clear = function() {
     for (var i=0; i<this.stack.length; i++) {
         var t = this.stack[i]
+        //cancel each and force it to complete
         t.cancel()
         t.tick(0)
     }
