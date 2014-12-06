@@ -82,7 +82,7 @@ var tween = ticker.to(elements, {
 
 #### `ticker.push(tween)`
 
-Pushes the generic tween object onto the stack. Like `ticker.to(tween)` but more explicit.
+Pushes a generic tween object onto the stack. Like `ticker.to(tween)` but more explicit.
 
 ```js
 var array = require('tween-array')
