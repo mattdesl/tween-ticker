@@ -21,7 +21,12 @@ TweenTicker.prototype.clear = function() {
 }
 
 TweenTicker.prototype.to = function(element, opt) {
-    return this.push(createTween(element, opt))
+    var tween = element
+    if (opt && typeof opt === 'object')
+        tween = createTween(element, opt)
+    else if (!isTween(tween)) //to avoid programmer error
+        throw new Error('must provide options or a tween object')
+    return this.push(tween)
 }
 
 TweenTicker.prototype.push = function(tween) {
@@ -52,6 +57,12 @@ TweenTicker.prototype.ease = function(tween, alpha) {
     if (typeof ease !== 'function')
         ease = linear
     return ease(alpha)
+}
+
+//mainly intended as a safeguard against potential user error
+function isTween(tween) {
+    return (typeof tween.tick === 'function' 
+            && typeof tween.cancel === 'function')
 }
 
 module.exports = TweenTicker

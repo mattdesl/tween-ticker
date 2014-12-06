@@ -42,9 +42,15 @@ Creates a ticker with some options:
 - `eases` a map of ease functions that users can pass by string in the tween options, defaults to an empty object
 - `defaultEase` a string or function that represents the default easing when the user does not specify one, defaults to a [linear function](https://github.com/mattdesl/eases/blob/master/linear.js)
 
+#### `tween = ticker.to(tween)`
+
+If only one argument is given, this method pushes a new tween onto the stack, returning that tween for chaining. Same as `ticker.push(tween)`. 
+
 #### `tween = ticker.to(element, opt)`
 
-Tweens the `element`, which can be an array of objects, or a single object. `opt` can be the following:
+A convenience version of `to()` which handles the most common case: object tweening. If the second argument, `opt` is truthy and an object, this method creates a new [object tween](https://www.npmjs.org/package/tween-objects) and pushes it onto the stack.
+
+The tween modifies `element`, which can be an array of objects, or a single object. `opt` can be the following:
 
 - `delay` in time units, default 0
 - `duration` in time units, default 0
@@ -74,7 +80,15 @@ var tween = ticker.to(elements, {
 */
 ```
 
-*Note:* Under the hood, this simply calls `push()` with a new [tween-objects](https://www.npmjs.org/package/tween-objects) instance.
+#### `ticker.push(tween)`
+
+Pushes the generic tween object onto the stack. Like `ticker.to(tween)` but more explicit.
+
+```js
+var array = require('tween-array')
+ticker.push(array(start, end, { duration: 5 }))
+    .on('complete', doSomething)
+```
 
 #### `ticker.clear()`
 
@@ -83,16 +97,6 @@ Clears all tweens stored in this ticker.
 #### `ticker.tick([dt])`
 
 Ticks the tween engine forward by the given delta time (or `1/60` if not specified). 
-
-#### `ticker.push(tween)`
-
-Pushes a generic tween type onto the stack and returns it. e.g.
-
-```js
-var array = require('tween-array')
-ticker.push(array(start, end, { duration: 5 }))
-    .on('complete', doSomething)
-```
 
 --
 

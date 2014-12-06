@@ -1,5 +1,6 @@
 var Ticker = require('./')
 var test = require('tape')
+var array = require('tween-array')
 
 test('operates on obejcts', function(t) {
     var element = { x: 5, value: [1, 0] }
@@ -27,6 +28,24 @@ test('operates on obejcts', function(t) {
     ticker.tick(0.5)
     t.deepEqual(target, { opacity: 0.5, position: [ 1, 2 ] })
 
+    t.end()
+})
+
+test('ducktypes tweens', function(t) {
+    var start = [10, 10], end = [20, 50]
+    var tween = array(start, end, 2.0)
+    var ticker = Ticker()
+
+    var obj = { x: 0 }
+    ticker.to(obj, { x: 1, duration: 1 })
+    ticker.to(array(start, end, 2.0))
+
+    ticker.tick(0.5)
+    t.deepEqual(start, [12.5, 20], 'pushes tween object')
+    t.deepEqual(obj.x, 0.5, 'creates new tween object')
+    t.throws(function() { //catch some programmer error here
+        ticker.to(obj)
+    }, 'throws')
     t.end()
 })
 
