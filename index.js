@@ -35,13 +35,14 @@ TweenTicker.prototype.push = function(tween) {
     return tween
 }
 
-TweenTicker.prototype.tick = function(dt) {
+TweenTicker.prototype.tick = function(dt, ease) {
+    ease = typeof ease === 'function' ? ease : this._applyEase
     dt = typeof dt === 'number' ? dt : 1/60
 
     //for all queued tweens, tick them forward
     for (var i=0; i<this.stack.length; i++) {
         var tween = this.stack[i]
-        tween.tick(dt, this._applyEase)
+        tween.tick(dt, ease)
     }
 
     //now kill any inactive tweens
