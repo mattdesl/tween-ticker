@@ -70,7 +70,7 @@ test('eases', function(t) {
     ticker.tick(0.50)
     t.equal(target.x, 1.125, 'uses squared by default')
 
-    ticker.clear()
+    ticker.cancel()
     target.x = 0
     ticker.to(target, { x: 1, duration: 1, ease: 'linear' })
     ticker.tick(0.50)
@@ -95,6 +95,19 @@ test('handles callbacks', function(t) {
     ticker.tick(1)
 })
 
+test('empty tween', function(t) {
+    t.plan(3)
+    
+    var ticker = Ticker()
+
+    var tween = ticker.to()
+    tween.on('update', function(tween) { t.ok(tween, 'got update') })
+    tween.on('complete', function(tween) { t.ok(tween, 'got complete') })
+    tween.on('start', function(tween) { t.ok(tween, 'got start') })
+
+    ticker.tick(1)
+    ticker.tick(1)
+})
 
 test('handles multiple', function(t) {
     t.plan(3)

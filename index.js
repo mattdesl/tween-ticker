@@ -1,5 +1,6 @@
 var linear = require('eases/linear')
 var createTween = require('tween-objects')
+var BaseTween = require('tween-base')
 
 function TweenTicker(opt) {
     if (!(this instanceof TweenTicker))
@@ -11,7 +12,7 @@ function TweenTicker(opt) {
     this._applyEase = this.ease.bind(this)
 }
 
-TweenTicker.prototype.clear = function() {
+TweenTicker.prototype.cancel = function() {
     for (var i=0; i<this.stack.length; i++) {
         var t = this.stack[i]
         //cancel each and force it to complete
@@ -21,10 +22,16 @@ TweenTicker.prototype.clear = function() {
     this.stack.length = 0
 }
 
+//no longer used, backward-compatible
+TweenTicker.prototype.clear = TweenTicker.prototype.cancel
+
 TweenTicker.prototype.to = function(element, opt) {
     var tween = element
     if (opt && typeof opt === 'object')
         tween = createTween(element, opt)
+    else if (!element && !opt) {
+        tween = new BaseTween()
+    }
     else if (!isTween(tween)) //to avoid programmer error
         throw new Error('must provide options or a tween object')
     return this.push(tween)
@@ -39,11 +46,13 @@ TweenTicker.prototype.tick = function(dt, ease) {
     ease = typeof ease === 'function' ? ease : this._applyEase
     dt = typeof dt === 'number' ? dt : 1/60
 
-    //for all queued tweens, tick them forward
+    //for all queued tweens, tick them forward (i.e. DOM read)
     for (var i=0; i<this.stack.length; i++) {
-        var tween = this.stack[i]
-        tween.tick(dt, ease)
+        this.stack[i].tick(dt, ease)
     }
+
+    //now sync their states (i.e. DOM write)
+    sync(this.stack)
 
     //now kill any inactive tweens
     for (i=this.stack.length-1; i>=0; i--)
@@ -65,6 +74,14 @@ TweenTicker.prototype.ease = function(tween, alpha) {
 function isTween(tween) {
     return (typeof tween.tick === 'function' 
             && typeof tween.cancel === 'function')
+}
+
+function sync(tweens) {
+    for (var i=0; i<tweens.length; i++) {
+        var tween = tweens[i]
+        if (typeof tween.sync === 'function')
+            tween.sync()
+    }
 }
 
 module.exports = TweenTicker

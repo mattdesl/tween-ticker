@@ -80,6 +80,10 @@ var tween = ticker.to(elements, {
 */
 ```
 
+#### `tween = ticker.to()`
+
+If no arguments are given, this method creates an "empty" or dummy tween that can be cancelled. This is similar to the way `noop` functions are used to avoid conditionals in functional programming. 
+
 #### `ticker.push(tween)`
 
 Pushes a generic tween object onto the stack. Like `ticker.to(tween)` but more explicit.
@@ -90,9 +94,9 @@ ticker.push(array(start, end, { duration: 5 }))
     .on('complete', doSomething)
 ```
 
-#### `ticker.clear()`
+#### `ticker.cancel()`
 
-Clears all tweens stored in this ticker.
+Clears and cancels all tweens stored in this ticker. `ticker.clear()` is an alias for this method. 
 
 #### `ticker.tick([dt])`
 
