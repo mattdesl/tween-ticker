@@ -96,7 +96,7 @@ ticker.push(array(start, end, { duration: 5 }))
 
 #### `ticker.cancel()`
 
-Clears and cancels all tweens stored in this ticker. `ticker.clear()` is an alias for this method. 
+Clears and cancels all tweens stored in this ticker. `ticker.clear()` is an alias for this method. Returns this for chaining.
 
 #### `ticker.tick([dt])`
 

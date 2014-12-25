@@ -20,6 +20,7 @@ TweenTicker.prototype.cancel = function() {
         t.tick(0)
     }
     this.stack.length = 0
+    return this
 }
 
 //no longer used, backward-compatible
