@@ -31,6 +31,35 @@ test('operates on obejcts', function(t) {
     t.end()
 })
 
+
+test('operates on getters/setters', function(t) {
+    var element = { value: [1, 0] }
+    var x = 5
+    Object.defineProperty(element, 'x', {
+        get: function() {
+            return x
+        },
+        set: function(val) {
+            x = val
+        }
+    })
+
+    var ticker = Ticker()
+    var tween
+
+    tween = ticker.to(element, { duration: 1, x: 10, delay: 1, value: [2, 4] })
+
+    t.equal(element.x, 5, 'does not change until ticking')
+
+    ticker.tick(1)
+    t.equal(element.x, 5, 'delay is taken into account')
+
+    ticker.tick(1)
+    t.equal(element.x, 10, 'lerps arrays and getter/setter')
+
+    t.end()
+})
+
 test('ducktypes tweens', function(t) {
     var start = [10, 10], end = [20, 50]
     var tween = array(start, end, 2.0)
