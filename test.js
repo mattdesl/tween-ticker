@@ -54,6 +54,29 @@ test('operates on getters/setters', function (t) {
   t.end()
 })
 
+test('operates on real get / set functions', function (t) {
+  function Euler () {
+    this._x = 0
+  }
+  Euler.prototype = {
+    constructor: Euler,
+    get x () {
+      return this._x
+    },
+    set x (value) {
+      this._x = value
+    }
+  }
+
+  var euler = new Euler()
+
+  var ticker = Ticker()
+  ticker.to(euler, { x: 1, duration: 1 })
+  ticker.tick(0.5)
+  t.equal(euler.x, 0.5)
+  t.end()
+})
+
 test('ducktypes tweens', function (t) {
   var start = [10, 10]
   var end = [20, 50]

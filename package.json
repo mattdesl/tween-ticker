@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "standard": "^5.4.1",
-    "tape": "^3.0.3",
+    "tape": "^4.4.0",
     "tween-array": "^1.0.1"
   },
   "scripts": {
