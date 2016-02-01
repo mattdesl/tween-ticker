@@ -18,11 +18,12 @@
     "tween-objects": "^1.0.1"
   },
   "devDependencies": {
+    "standard": "^5.4.1",
     "tape": "^3.0.3",
     "tween-array": "^1.0.1"
   },
   "scripts": {
-    "test": "node test.js"
+    "test": "standard && node test.js"
   },
   "keywords": [
     "tick",
